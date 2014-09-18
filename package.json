@@ -1,0 +1,27 @@
+{
+  "name": "lst.js",
+  "version": "0.0.0",
+  "description": "JavaScript data-binding library",
+  "main": "lst.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/anton-gorbikov/lst.js"
+  },
+  "keywords": [
+    "template",
+    "data-binding"
+  ],
+  "author": "Anton Gorbikov",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/anton-gorbikov/lst.js/issues"
+  },
+  "homepage": "https://github.com/anton-gorbikov/lst.js",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-jshint": "^0.10.0"
+  }
+}

@@ -2,3 +2,6 @@
 *.suo
 *.user
 *.csproj
+bin/
+obj/
+node_modules/
