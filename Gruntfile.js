@@ -8,7 +8,7 @@ module.exports = function(grunt) {
 				curly: true,
 				eqeqeq: true,
 				es3: false,
-				forin: true,
+				forin: false,
 				freeze: true,
 				immed: true,
 				latedef: true,
@@ -23,7 +23,11 @@ module.exports = function(grunt) {
 				unused: true,
 				strict: true,
 				maxparams: 3,
-				maxdepth: 3
+				maxdepth: 3,
+				globals: {
+					window: true,
+					document: true
+				}
 			},
 			all: ['src/*.js']
 		},

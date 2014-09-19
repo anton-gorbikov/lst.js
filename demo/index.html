@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>lst.js</title>
+	<script type="text/javascript" src="../src/lst.js"></script>
+
+	<template id="test-template-01">
+		<div data-lst-attributes="test-01">
+			<div data-lst-content="test-01"></div>
+			<div data-lst-content="test-02"></div>
+			<div data-lst-content="test-03"></div>
+			<div data-lst-content="test-04"></div>
+			<div data-lst-content="test-05"></div>
+		</div>
+	</template>
+</head>
+<body>
+	<div id="demo-01"></div>
+
+	<script type="text/javascript">
+		var binder = new Lst('test-template-01'),
+			testObject = {
+				'test-01': 'aaaa',
+				'test-02': 'fasdf',
+				'test-03': 'zzzz',
+				'test-04': 'aaaadfsdfdaa',
+				'test-05': 'bbvbvb',
+				'test-06': 'rtretret'
+			};
+		document.getElementById('demo-01').appendChild(binder.bindTemplate(testObject));
+	</script>
+</body>
+</html>
