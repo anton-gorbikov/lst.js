@@ -31,6 +31,9 @@
 
 			for (var i = 0; i < nodes.length; ++i) {
 				this[this._supportedAttributes[attribute]](nodes[i], object);
+
+				//HTML clean-up
+				nodes[i].removeAttribute(attribute);
 			}
 		}
 
@@ -51,13 +54,28 @@
 				node.setAttribute(attributes[i].name, object[attributes[i].value]);
 			}
 		}
-
-		//HTML clean-up
-		node.removeAttribute('data-lst-attributes');
 	};
 
-	Lst.prototype._bindClasslist = function() {
+	Lst.prototype._bindClasslist = function(node, object) {
+		var classes = node.getAttribute('data-lst-classlist').split(',').map(function(value) {
+			var keyValuePair = value.split(':');
+			return {
+				condition: keyValuePair[0],
+				valueIfTrue: keyValuePair[1],
+				valueIfFalse: keyValuePair[2]
+			};
+		});
 
+		for (var i = 0; i < classes.length; ++i) {
+			if (object.hasOwnProperty(classes[i].condition)) {
+				if (object[classes[i].condition] && classes[i].valueIfTrue && !node.classList.contains(classes[i].valueIfTrue)) {
+					node.classList.add(classes[i].valueIfTrue);
+				}
+				if (!object[classes[i].condition] && classes[i].valueIfFalse && !node.classList.contains(classes[i].valueIfFalse)) {
+					node.classList.add(classes[i].valueIfFalse);
+				}
+			}
+		}
 	};
 
 	Lst.prototype._bindContent = function(node, object) {
