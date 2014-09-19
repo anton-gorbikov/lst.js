@@ -12,9 +12,9 @@
 	};
 
 	Lst.prototype._supportedAttributes = {
-		'data-lst-attributes': '_bindAttributesAll',
-		'data-lst-classlist': '_bindClasslistAll',
-		'data-lst-content': '_bindContentAll'
+		'data-lst-attributes': '_bindAttributes',
+		'data-lst-classlist': '_bindClasslist',
+		'data-lst-content': '_bindContent'
 	};
 
 	Lst.prototype._subTemplateAttribute = 'data-lst-subtemplate';
@@ -23,27 +23,41 @@
 	Lst.prototype._prepend = 'prepend';
 
 	Lst.prototype.bindTemplate = function(object) {
-		var clone = document.importNode(this._template.content, true);
+		var clone = document.importNode(this._template.content, true),
+			nodes;
 
 		for (var attribute in this._supportedAttributes) {
-			this[this._supportedAttributes[attribute]](clone.querySelectorAll('[' + attribute + ']'), object);
+			nodes = clone.querySelectorAll('[' + attribute + ']');
+
+			for (var i = 0; i < nodes.length; ++i) {
+				this[this._supportedAttributes[attribute]](nodes[i], object);
+			}
 		}
 
 		return clone;
 	};
 
-	Lst.prototype._bindAttributesAll = function() {
+	Lst.prototype._bindAttributes = function(node, object) {
+		var attributes = node.getAttribute('data-lst-attributes').split(',').map(function(value) {
+			var keyValuePair = value.split('=');
+			return {
+				name: keyValuePair[0],
+				value: keyValuePair[1]
+			};
+		});
 
-	};
-
-	Lst.prototype._bindClasslistAll = function() {
-
-	};
-
-	Lst.prototype._bindContentAll = function(nodes, object) {
-		for (var i = 0; i < nodes.length; ++i) {
-			this._bindContent(nodes[i], object);
+		for (var i = 0; i < attributes.length; ++i) {
+			if (object.hasOwnProperty(attributes[i].value)) {
+				node.setAttribute(attributes[i].name, object[attributes[i].value]);
+			}
 		}
+
+		//HTML clean-up
+		node.removeAttribute('data-lst-attributes');
+	};
+
+	Lst.prototype._bindClasslist = function() {
+
 	};
 
 	Lst.prototype._bindContent = function(node, object) {
