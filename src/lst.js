@@ -17,11 +17,6 @@
 		'data-lst-content': '_bindContent'
 	};
 
-	Lst.prototype._subTemplateAttribute = 'data-lst-subtemplate';
-	Lst.prototype._contentBindAttribute = 'data-lst-insert';
-	Lst.prototype._append = 'append';
-	Lst.prototype._prepend = 'prepend';
-
 	Lst.prototype.bindTemplate = function(object) {
 		var clone = document.importNode(this._template.content, true),
 			nodes;
@@ -79,9 +74,47 @@
 	};
 
 	Lst.prototype._bindContent = function(node, object) {
-		//TODO temporary simplified implementation
-		var attribute = node.getAttribute('data-lst-content');
-		node.innerHTML = object[attribute];
+		var content = node.getAttribute('data-lst-content'),
+			isHtml = node.hasAttribute('data-lst-html'),
+			prependContent = node.hasAttribute('data-lst-prepend'),
+			subTemplate = node.getAttribute('data-lst-subtemplate');
+
+		if (typeof object[content] === 'string' || typeof object[content] === 'number' || typeof object[content] === 'boolean') {
+			this._insertContent(node, object[content], isHtml, prependContent);
+		} else {
+			this._insertNode(node, new Lst(subTemplate).bindTemplate(object[content]), prependContent);
+		}
+
+		node.removeAttribute('data-lst-html');
+		node.removeAttribute('data-lst-prepend');
+		node.removeAttribute('data-lst-subtemplate');
+	};
+
+	Lst.prototype._insertContent = function(node, content, isHtml, prependContent) {
+		var textNode;
+
+		if (isHtml) {
+			this._insertHtml(node, content, prependContent);
+		} else {
+			textNode = document.createTextNode(content);
+
+			this._insertNode(node, textNode, prependContent);
+		}
+	};
+
+	Lst.prototype._insertHtml = function(node, content, prependContent) {
+		node.insertAdjacentHTML(prependContent ? 'afterbegin' : 'beforeend', content);
+	};
+
+	Lst.prototype._insertNode = function(node, child, prependChild) {
+		var prependTo;
+
+		if (prependChild) {
+			prependTo = node.childNodes[0];
+			node.insertBefore(child, prependTo);
+		} else {
+			node.appendChild(child);
+		}
 	};
 
 	window.Lst = Lst;

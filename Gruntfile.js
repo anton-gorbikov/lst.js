@@ -22,7 +22,7 @@ module.exports = function(grunt) {
 				undef: true,
 				unused: true,
 				strict: true,
-				maxparams: 3,
+				maxparams: 5,
 				maxdepth: 3,
 				globals: {
 					window: true,
