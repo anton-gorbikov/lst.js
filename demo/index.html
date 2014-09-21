@@ -4,32 +4,27 @@
 	<title>lst.js</title>
 	<script type="text/javascript" src="../src/lst.js"></script>
 
-	<template id="test-template-01">
-		<div data-lst-attributes="title=test-01,aaaa=bbbb" data-lst-classlist="test-01:aaa:bbb,aaa:zzzz:qqqq">
-			<div data-lst-content="test-01" data-lst-prepend>bbbb</div>
-			<div data-lst-content="test-02">%%%%</div>
-			<div data-lst-content="test-03" data-lst-html></div>
-			<div data-lst-content="test-04" data-lst-subtemplate="test-template-02"></div>
-		</div>
-	</template>
-
-	<template id="test-template-02">
-		<div data-lst-content="test-05"></div>
-		<div data-lst-content="test-06"></div>
+	<template id="bind-attributes-test">
+		<div data-lst-attributes="title=test-01,href=invalid-field"></div>
+		<div data-lst-attributes="data-test-attribute=test-02"></div>
+		<div data-lst-attributes="title=test-03"></div>
 	</template>
 </head>
 <body>
 	<div id="demo-01"></div>
 
 	<script type="text/javascript">
-		var binder = new Lst('test-template-01'),
+		var binder = new Lst('bind-attributes-test'),
 			testObject = {
 				'test-01': 'aaaa',
 				'test-02': 'fasdf',
 				'test-03': '<b>asdsadas</b>',
 				'test-04': {
 					'test-05': 'bbvbvb',
-					'test-06': 'rtretret'
+					'test-06': 'rtretret',
+					'test-07': {
+						'test-08': '<i>dsfadsfdsfasdf</i>'
+					}
 				}
 			};
 		document.getElementById('demo-01').appendChild(binder.bindTemplate(testObject));
